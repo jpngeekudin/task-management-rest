@@ -12,13 +12,29 @@ const userSchema = new Schema({
   username: {
     type: String,
     unique: true,
+    required: true,
   },
-  password: String,
-  name: String,
-  role: String,
+  password: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    requried: true,
+    enum: ['leader', 'member'],
+  },
   createdAt: {
     type: Number,
     default: Date.now(),
+    requried: true,
+  },
+  __v: {
+    type: Number,
+    select: false
   }
 });
 

@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import UserRoute from './routes/user-route';
@@ -14,6 +15,7 @@ async function main() {
   const app = express();
   const port = process.env.PORT || 3000;
   app.use(express.json());
+  app.use(cors());
   
   app.get('/', (req, res) => {
     res.json({
