@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Team } from "../models/team-modal";
+import { Team } from "../models/team-model";
 
 export async function getTeams(req: Request, res: Response, next: NextFunction) {
   try {

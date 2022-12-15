@@ -12,8 +12,8 @@ async function main() {
   dotenv.config();
   const MONGO_HOST = process.env.MONGO_HOST;
   const MONGO_PORT = process.env.MONGO_PORT;
-  await mongoose.connect(`mongodb://${MONGO_HOST}:${MONGO_PORT}/task_management`);
   mongoose.set('strictQuery', false);
+  await mongoose.connect(`mongodb://${MONGO_HOST}:${MONGO_PORT}/task_management`);
   
   const app = express();
   const port = process.env.PORT || 3000;

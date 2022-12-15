@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
+import { Team } from "../models/team-model";
 import { IUser, User } from "../models/user-model";
+import { getTeams } from "./team-controller";
 
 export async function getUsers(req: Request, res: Response, next: NextFunction) {
   try {
@@ -75,19 +77,41 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
 
 export async function deleteUser(req: Request, res: Response, next: NextFunction) {
   try {
+    const isDeleteTeam = req.query.deleteTeam == 'true';
+
     const id = req.params.id;
-    const user = await User.findByIdAndDelete(id);
+    const user = await User.findById(id);
     if (!user) {
       res.status(404).json({
         success: false,
         message: 'User not found'
       });
-    } else {
-      res.json({
-        success: true,
-        message: 'Success deleting user!'
-      });
+      return;
     }
+
+    const teams = await Team.find({ leader: user._id });
+    if (teams.length) {
+      if (!isDeleteTeam) {
+        res.status(400).json({
+          success: false,
+          message: 'There are still team with this user as leader',
+        });
+        return;
+      }
+
+      else {
+        teams.forEach(async team => {
+          await team.delete();
+        });
+      }
+    }
+    
+    const deleted = await user.delete();
+    res.json({
+      success: true,
+      message: 'Success deleting user!',
+      data: deleted,
+    });
   } catch(err) {
     next(err);
   }
