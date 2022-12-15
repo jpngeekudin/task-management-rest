@@ -33,7 +33,6 @@ export async function createUser(req: Request, res: Response, next: NextFunction
       password: req.body.password,
       name: req.body.name,
       role: req.body.role,
-      createdAt: req.body.createdAt,
     });
     await user.save();
     res.json({
@@ -56,17 +55,16 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
         message: 'User not found'
       })
     } else {
-      user.update({
+      const updated = await user.update({
         username: req.body.username,
         password: req.body.password,
         name: req.body.name,
         role: req.body.role,
         createdAt: req.body.createdAt,
       });
-      await user.save();
       res.json({
         success: true,
-        data: user,
+        data: updated,
         message: 'Success updating user!'
       });
     }
