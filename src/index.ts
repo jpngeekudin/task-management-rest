@@ -7,6 +7,7 @@ import errorHandler from './middlewares/error-handle-middleware';
 import UserRoute from './routes/user-route';
 import AuthRoute from './routes/auth-route';
 import TeamRoute from './routes/team-route';
+import TaskRoute from './routes/task-route';
 
 async function main() {
   dotenv.config();
@@ -30,6 +31,7 @@ async function main() {
   app.use('/user', UserRoute);
   app.use('/auth', AuthRoute);
   app.use('/team', TeamRoute);
+  app.use('/task', TaskRoute);
   app.use(errorHandler);
   
   app.listen(port, () => {
